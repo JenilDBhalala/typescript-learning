@@ -1,14 +1,31 @@
 /**
- * unknown vs any types
+ * unknown vs any types : top types
  */
 
-// let data : any
-// data = 20;
-// data = "jenil";
+/*
+let data : any
+data = 20;
+data = "jenil";
 
-// let item : string;
-// item = data;  //no error in case of any type
-// console.log(item)
+let item : string;
+item = data;  //no error in case of any type
+console.log(item)
+*/
+
+
+
+/*
+let data: unknown;
+data = "jenil"
+data = 20;
+
+if (typeof data === "string")
+    console.log(data, "data is typeof string")
+else if (typeof data === 'number') {
+    console.log(data, "data is typeof number")
+}
+*/
+
 
 
 // let data : unknown
@@ -276,7 +293,7 @@ type NamesOnly = NonNullable<AllPossibleGrades>
 */
 
 
-
+/*
 //12. Awaited<Type> 
 //helps us with the ReturnType of a Promise 
 
@@ -302,3 +319,88 @@ const fetchUsers = async (): Promise<User[]> => {
 type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>
 
 fetchUsers().then(users => console.log(users))
+
+*/
+
+
+/**
+ * user-defined type-guard
+ */
+
+/*
+interface Cat {
+    name: string;
+    meow: () => void;
+}
+
+interface Dog {
+    name: string;
+    bark: () => void;
+}
+
+function isCat(pet: Cat | Dog): pet is Cat {
+    return (pet as Cat).meow !== undefined;
+}
+
+function playWithPet(pet: Cat | Dog) {
+    if (isCat(pet)) {
+        pet.meow();
+    } else {
+        pet.bark();
+    }
+}
+*/
+
+
+
+/**
+ * index signatures
+ */
+/*
+interface Obj {
+    [key : string] : string
+}
+
+const obj : Obj = {
+    "name" : "jenil",
+    "age" : "22",
+    "address" : "surat"
+}
+*/
+
+
+
+
+/**
+ * keyof operator : The keyof keyword in TypeScript has many use cases, 
+ * but one of the most common is for type-safe property access and manipulation.
+ */
+
+/*
+type Person = {
+    name: string;
+    age: number;
+    address: {
+        street: string;
+        city: string;
+    };
+};
+
+
+function getProp(person: Person, key: keyof Person) {
+    return person[key];
+}
+
+const john: Person = {
+    name: 'John',
+    age: 30,
+    address: {
+        street: '123 Main St',
+        city: 'Anytown'
+    }
+};
+
+console.log(getProp(john, 'name')); // Output: John
+console.log(getProp(john, 'age')); // Output: 30
+console.log(getProp(john, 'address')); // Output: { street: '123 Main St', city: 'Anytown' }
+*/
