@@ -2,6 +2,15 @@
 /**
  * unknown vs any types : top types
  */
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 /*
 let data : any
 data = 20;
@@ -349,3 +358,101 @@ console.log(getProp(john, 'name')); // Output: John
 console.log(getProp(john, 'age')); // Output: 30
 console.log(getProp(john, 'address')); // Output: { street: '123 Main St', city: 'Anytown' }
 */
+/**
+ * decorators
+ */
+/*
+//method decorator
+function log(target: any, key: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+        console.log(`Calling ${key} with`, args);
+        const result = originalMethod(...args);
+        console.log(`Result of ${key} is`, result);
+        return result;
+    };
+    return descriptor;
+}
+
+
+class Calculator {
+    @log
+    add(a: number, b: number) {
+        return a + b;
+    }
+}
+
+const calculator = new Calculator();
+calculator.add(2, 3); // Output: Calling add with [2, 3] Result of add is 5
+*/
+/*
+//class decoration
+function logClass(target: any) {
+    console.log(`Class ${target.name} has been logged!`);
+}
+
+//decoration factory
+function addMethods(methods: string[]) {
+    return function (target: any) {
+        methods.forEach(method => {
+            target.prototype[method] = function () {
+                console.log(`Method ${method} has been added to ${target.name}.`);
+            }
+        });
+    }
+}
+
+@logClass
+@addMethods(["newMethod1", "newMethod2"])
+class MyClass {
+    constructor(public name: string) { }
+}
+
+const myInstance = new MyClass("John");
+myInstance.newMethod1();
+myInstance.newMethod2();
+*/
+//accessor decorator
+function logProperty(target, key, descriptor) {
+    const originalGetter = descriptor.get;
+    descriptor.get = function () {
+        console.log(`Getting ${key} value...`);
+        return originalGetter.call(this);
+    };
+}
+class MyClass {
+    constructor(name) {
+        this._name = name;
+    }
+    get name() {
+        return this._name;
+    }
+}
+__decorate([
+    logProperty,
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [])
+], MyClass.prototype, "name", null);
+const myInstance = new MyClass("John");
+console.log(myInstance.name);
+/*
+//property decorator
+function myPropertyDecorator(target: any, key: string) {
+    console.log(`Decorating property ${key} in ${target.constructor.name}`);
+}
+
+class MyClass {
+    @myPropertyDecorator
+    myProperty: string = 'hello';
+}
+
+const instance = new MyClass();
+*/
+const car = {
+    name: 'BMW',
+    color: 'black'
+};
+console.log(Object.getOwnPropertyDescriptor(car, 'name'));
+Object.defineProperty(car, 'name', { writable: false });
+console.log(Object.getOwnPropertyDescriptor(car, 'name'));
+car.name = "Mercedes";
